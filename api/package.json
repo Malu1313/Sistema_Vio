@@ -1,5 +1,5 @@
 {
-  "name": "gabrielapi",
+  "name": "malu",
   "version": "1.0.0",
   "description": "criando um crud de usuarios",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js"
   },
-  "author": "gabriel",
+  "author": "malu",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
