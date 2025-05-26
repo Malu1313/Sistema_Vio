@@ -128,4 +128,4 @@ end $$
 
 delimiter ;
 
-call resumo_evento(3); 
+call registrar_compra(3); 
