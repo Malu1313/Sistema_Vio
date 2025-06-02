@@ -1,7 +1,10 @@
 const router = require("express").Router();
-
-const userController = require("../controllers/userController");
 const veriyfyJWT = require("../services/verifyJWT");
+const userController = require("../controllers/userController");
+const organizadorController = require("../controllers/organizadorController");
+const eventoController = require("../controllers/eventoController");
+const ingressoController = require("../controllers/ingressoController");
+const compraController = require("../controllers/compraController");
 
 router.post("/user", userController.createUser);
 router.get("/user", veriyfyJWT, userController.getAllUsers);
@@ -10,15 +13,13 @@ router.put("/user", userController.updateUser);
 router.delete("/user/:id", userController.deleteUser);
 router.post("/login", userController.loginUser);
 
-const organizadorController = require("../controllers/organizadorController");
+
 
 router.post("/organizador", organizadorController.createOrganizador);
 router.get("/organizador", organizadorController.getAllOrganizadores);
 router.put("/organizador", organizadorController.updateOrganizador);
 router.delete("/organizador/:id", organizadorController.deleteOrganizador);
 
-const eventoController = require("../controllers/eventoController");
-const ingressoController = require("../controllers/ingressoController");
 
 //rotas eventoController
 router.post("/evento", eventoController.createEvento);
@@ -34,5 +35,9 @@ router.get("/ingresso", ingressoController.getAllIngressos);
 router.put("/ingresso", ingressoController.updateIngresso);
 router.delete("/ingresso/:id", ingressoController.deleteIngresso);
 router.get("/ingresso/evento/:id", ingressoController.getByIdEvento);
+
+// compraController
+router.post("/comprasimples", compraController.registrarCompraSimples);
+router.post("/compra", compraController.registrarCompra);
 
 module.exports = router;
