@@ -2,10 +2,15 @@ const connect = require("../db/connect");
 const jwt = require("jsonwebtoken");
 const validateUser = require("../services/validateUser");
 const validateCpf = require("../services/validateCpf");
+const bcrypt = require("bcrypt");
+const SALT_ROUNDS = 10;
+//  maior o numero de saldos, mais dificil de senha
 
 module.exports = class userController {
   static async createUser(req, res) {
     const { cpf, email, password, name, data_nascimento } = req.body;
+
+    console.log("Chegou aqui...")
 
     const validationError = validateUser(req.body);
     if (validationError) {
@@ -18,12 +23,17 @@ module.exports = class userController {
         return res.status(400).json(cpfError);
       }
 
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+      console.log("Chegou aqui hash...", hashedPassword)
+
       const query = `INSERT INTO usuario (cpf, password, email, name, data_nascimento) VALUES (?, ?, ?, ?, ?)`;
       connect.query(
         query,
-        [cpf, password, email, name, data_nascimento],
+        [cpf, hashedPassword, email, name, data_nascimento],
         (err) => {
           if (err) {
+            console.log("Chegou aqui err...", err)
             if (err.code === "ER_DUP_ENTRY") {
               if (err.message.includes("for key 'email'")) {
                 return res.status(400).json({ error: "Email já cadastrado" });
@@ -33,7 +43,12 @@ module.exports = class userController {
                   .json({ error: "Erro interno do servidor", err });
               }
             }
-          } else {
+            else{return res
+              .status(500)
+              .json({ error: "Erro interno do servidor", err });
+
+            }
+          } else {            
             return res
               .status(201)
               .json({ message: "Usuário criado com sucesso" });
@@ -142,7 +157,10 @@ module.exports = class userController {
 
         const user = results[0];
 
-        if (user.password !== password) {
+        // Comparar a senha enviada na requisição com o hash do banco
+        const passwordOK = bcrypt.compareSync(password, user.password);
+  
+        if (!passwordOK) {
           return res.status(401).json({ error: "Senha incorreta" });
         }
 
