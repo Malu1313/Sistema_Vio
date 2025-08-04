@@ -185,6 +185,10 @@ DELIMITER ;
 -- Table structure for table `organizador`
 --
 
+
+insert into usuario (name, email, password, cpf, data_nascimento) values
+('João Silva', 'joao.silva@example.com', '$2b$10$MBxqcvhFahRYGrw.sPyV3./3VtWippf6CO0cKuRspOOFUS5Yi/hJ6', '16123456789', '1990-01-15');
+
 DROP TABLE IF EXISTS `organizador`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -332,3 +336,5 @@ DELIMITER ;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-05-12 14:15:08
+
+alter table evento add imagem longblob;

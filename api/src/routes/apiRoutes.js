@@ -5,6 +5,7 @@ const organizadorController = require("../controllers/organizadorController");
 const eventoController = require("../controllers/eventoController");
 const ingressoController = require("../controllers/ingressoController");
 const compraController = require("../controllers/compraController");
+const upload = require("../services/upload");
 
 router.post("/user", userController.createUser);
 router.get("/user", veriyfyJWT, userController.getAllUsers);
@@ -22,7 +23,7 @@ router.delete("/organizador/:id", organizadorController.deleteOrganizador);
 
 
 //rotas eventoController
-router.post("/evento", eventoController.createEvento);
+router.post("/evento", upload.single("imagem"), eventoController.createEvento);
 router.get("/evento", veriyfyJWT, eventoController.getAllEventos);
 router.put("/evento", eventoController.updateEvento);
 router.delete("/evento/:id", eventoController.deleteEvento);
